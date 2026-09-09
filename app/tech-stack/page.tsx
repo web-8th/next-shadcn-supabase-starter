@@ -7,7 +7,6 @@ import {
 } from '@/components/ui';
 import { getDelayClass } from '@/utils/animations';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const techStack = [
   {

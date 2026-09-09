@@ -6,7 +6,7 @@ import { PanelLeftIcon } from 'lucide-react';
 import { Slot } from 'radix-ui';
 
 import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
+import { cn } from 'cn';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -629,10 +629,11 @@ function SidebarMenuSkeleton({
 }: React.ComponentProps<'div'> & {
   showIcon?: boolean;
 }) {
-  // Random width between 50 to 90%.
+  const id = React.useId();
   const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`;
-  }, []);
+    const hash = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return `${(hash % 40) + 50}%`;
+  }, [id]);
 
   return (
     <div

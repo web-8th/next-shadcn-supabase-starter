@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
 import { CheckIcon, ChevronDownIcon, XIcon } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { cn } from 'cn';
 import { Button } from '@/components/ui/button';
 import {
   InputGroup,
@@ -292,11 +292,7 @@ function ComboboxChip({
   );
 }
 
-function ComboboxChipsInput({
-  className,
-  children,
-  ...props
-}: ComboboxPrimitive.Input.Props) {
+function ComboboxChipsInput({ className, ...props }: ComboboxPrimitive.Input.Props) {
   return (
     <ComboboxPrimitive.Input
       data-slot='combobox-chip-input'
