@@ -29,10 +29,12 @@ import { useToast } from '@/hooks/use-toast';
 
 function LoginButton({ onClose }: { onClose?: () => void }) {
   return (
-    <Button variant='outline' asChild>
-      <Link href='/login' onClick={onClose}>
-        <LogIn /> Login
-      </Link>
+    <Button
+      variant='outline'
+      nativeButton={false}
+      render={<Link href='/login' onClick={onClose} />}
+    >
+      <LogIn /> Login
     </Button>
   );
 }
@@ -56,10 +58,8 @@ function LogoutButton({ user, onClose }: { user: User; onClose?: () => void }) {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant='outline'>
-          {user.email?.split('@')[0]} <LogOut />
-        </Button>
+      <DialogTrigger render={<Button variant='outline' />}>
+        {user.email?.split('@')[0]} <LogOut />
       </DialogTrigger>
       <DialogContent className='sm:max-w-106.25'>
         <DialogHeader>
@@ -105,8 +105,13 @@ export function Navbar() {
         {/* Desktop Navigation */}
         <div className='hidden items-center gap-4 md:flex'>
           {filteredNavLinks.map((link) => (
-            <Button key={link.href} variant='ghost' asChild>
-              <Link href={link.href}>{link.label}</Link>
+            <Button
+              key={link.href}
+              variant='ghost'
+              nativeButton={false}
+              render={<Link href={link.href} />}
+            >
+              {link.label}
             </Button>
           ))}
           {AUTH_ENABLED && (user ? <LogoutButton user={user} /> : <LoginButton />)}
@@ -116,14 +121,12 @@ export function Navbar() {
         {/* Mobile Navigation - Sheet */}
         <div className='md:hidden'>
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant='outline' size='icon'>
-                <Menu className='h-6 w-6' />
-                <span className='sr-only'>Toggle menu</span>
-              </Button>
+            <SheetTrigger render={<Button variant='outline' size='icon' />}>
+              <Menu className='h-6 w-6' />
+              <span className='sr-only'>Toggle menu</span>
             </SheetTrigger>
             <SheetContent side='right' className='w-75 sm:w-100'>
-              <SheetHeader>
+              <SheetHeader className='pr-12'>
                 <SheetTitle>
                   <Logo onClick={() => setOpen(false)} />
                 </SheetTitle>
@@ -131,10 +134,14 @@ export function Navbar() {
               <div className='flex flex-col gap-6'>
                 <nav className='flex flex-col gap-4 justify-center items-center'>
                   {filteredNavLinks.map((link) => (
-                    <Button key={link.href} variant='ghost' className='w-1/2' asChild>
-                      <Link href={link.href} onClick={() => setOpen(false)}>
-                        {link.label}
-                      </Link>
+                    <Button
+                      key={link.href}
+                      variant='ghost'
+                      className='w-1/2'
+                      nativeButton={false}
+                      render={<Link href={link.href} onClick={() => setOpen(false)} />}
+                    >
+                      {link.label}
                     </Button>
                   ))}
                   {AUTH_ENABLED &&

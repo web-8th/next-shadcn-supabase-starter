@@ -37,16 +37,21 @@ export default function Admin() {
             </div>
           </div>
 
-          <Button variant='default' className='w-full sm:w-auto mx-auto' asChild>
-            <a
-              href='https://github.com/rinmeng/next-shadcn-supabase-starter/blob/main/proxy.ts'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='inline-flex items-center gap-2'
-            >
-              View proxy.ts
-              <SquareArrowOutUpRight className='h-3 w-3' />
-            </a>
+          <Button
+            variant='default'
+            className='w-full sm:w-auto mx-auto'
+            nativeButton={false}
+            render={
+              <a
+                href='https://github.com/rinmeng/next-shadcn-supabase-starter/blob/main/proxy.ts'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='inline-flex items-center gap-2'
+              />
+            }
+          >
+            View proxy.ts
+            <SquareArrowOutUpRight className='h-3 w-3' />
           </Button>
         </CardContent>
       </Card>

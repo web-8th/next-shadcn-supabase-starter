@@ -83,15 +83,16 @@ export default function Home() {
               size='lg'
               variant='outline'
               className='fade-in-from-bottom delay-[600ms]'
-              asChild
+              nativeButton={false}
+              render={
+                <a
+                  href='https://github.com/rinmeng/next-shadcn-supabase-starter'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                />
+              }
             >
-              <a
-                href='https://github.com/rinmeng/next-shadcn-supabase-starter'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                View on GitHub <SquareArrowOutUpRight />
-              </a>
+              View on GitHub <SquareArrowOutUpRight />
             </Button>
           </div>
         </div>
