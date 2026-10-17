@@ -18,19 +18,19 @@ const cards = [
     title: 'Fast Development',
     description: 'Start building immediately',
     content:
-      'Pre-configured with all the tools you need. Beautiful UI components, authentication, and database ready to go.',
+      '65+ shadcn/ui components on Base UI, Supabase auth wiring, and dark mode, all ready to go out of the box.',
   },
   {
     title: 'Type Safe',
     description: 'Full TypeScript support',
     content:
-      'End-to-end type safety with TypeScript, ensuring fewer bugs and better developer experience.',
+      'TypeScript 7 across the app, Zod schemas for forms, and shared types in one place under lib/types.',
   },
   {
     title: 'Production Ready',
     description: 'Deploy with confidence',
     content:
-      'Optimized for performance and ready to deploy to Vercel, Netlify, or any platform.',
+      'Formatting and linting checked in CI, Vercel Analytics built in, and one-click deploy to Vercel.',
   },
 ];
 
@@ -47,9 +47,9 @@ export default function Home() {
             size='md'
             className='mx-auto max-w-2xl fade-in-from-bottom delay-[100ms]'
           >
-            A modern boilerplate with Next.js, Shadcn UI, and Supabase. Get started
-            building your next project with this production-ready starter, beautifully
-            designed by rin.
+            A modern boilerplate with Next.js 16, React 19, shadcn/ui, Tailwind CSS v4,
+            and Supabase. Get started building your next project with this
+            production-ready starter, beautifully designed by rin.
           </Text>
         </div>
 

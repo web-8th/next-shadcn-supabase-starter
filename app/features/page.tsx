@@ -10,7 +10,6 @@ import { getDelayClass } from '@/utils/animations';
 import {
   Shield,
   Lock,
-  Mail,
   Route,
   Zap,
   Code2,
@@ -22,51 +21,55 @@ import {
   Workflow,
   Rocket,
   CheckCircle2,
-  AlertCircle,
   Sparkles,
+  ToggleLeft,
+  Moon,
+  Bell,
+  GitBranch,
+  FolderTree,
 } from 'lucide-react';
 
 const features = [
   {
     icon: Shield,
     title: 'Authentication & Security',
-    description: 'Enterprise-grade security built-in',
+    description: 'Supabase auth wired up and ready to switch on',
     color: 'text-blue-500',
     bgColor: 'bg-blue-500/10',
     items: [
       { icon: Lock, label: 'Supabase Auth' },
-      { icon: Mail, label: 'Email Verification' },
+      { icon: Workflow, label: 'SSR Session Refresh' },
+      { icon: Shield, label: 'proxy.ts Middleware' },
       { icon: Route, label: 'Protected Routes' },
-      { icon: Workflow, label: 'Auth Callbacks' },
-      { icon: Shield, label: 'Middleware Proxy' },
+      { icon: ToggleLeft, label: 'Auth Toggle' },
     ],
   },
   {
     icon: Code2,
     title: 'Modern Tech Stack',
-    description: 'Cutting-edge technologies for peak performance',
+    description: 'Latest versions of the tools you already know',
     color: 'text-purple-500',
     bgColor: 'bg-purple-500/10',
     items: [
-      { icon: Zap, label: 'Next.js 15' },
-      { icon: Route, label: 'App Router' },
+      { icon: Zap, label: 'Next.js' },
+      { icon: Box, label: 'React' },
       { icon: Code2, label: 'TypeScript' },
       { icon: Paintbrush, label: 'Tailwind CSS' },
-      { icon: Box, label: 'Shadcn UI' },
+      { icon: Layers, label: 'shadcn/ui + Base UI' },
     ],
   },
   {
     icon: Layers,
     title: 'Scalable Architecture',
-    description: 'Future-proof project structure',
+    description: 'A project structure that stays tidy as you grow',
     color: 'text-green-500',
     bgColor: 'bg-green-500/10',
     items: [
-      { icon: Server, label: 'API Versioning' },
-      { icon: FileCode, label: 'Server Components' },
-      { icon: Box, label: 'Client Components' },
-      { icon: Route, label: 'Route Handlers' },
-      { icon: Layers, label: 'Modular Design' },
+      { icon: Route, label: 'App Router' },
+      { icon: Server, label: 'Server Components' },
+      { icon: FileCode, label: 'Context + Hooks' },
+      { icon: FolderTree, label: 'Centralized Types' },
+      { icon: Bell, label: 'Toast Provider' },
     ],
   },
   {
@@ -76,11 +79,11 @@ const features = [
     color: 'text-orange-500',
     bgColor: 'bg-orange-500/10',
     items: [
-      { icon: Zap, label: 'Hot Reload' },
       { icon: CheckCircle2, label: 'ESLint' },
-      { icon: Sparkles, label: 'Prettier' },
-      { icon: AlertCircle, label: 'Type Safety' },
-      { icon: CheckCircle2, label: 'Form Validation' },
+      { icon: Sparkles, label: 'Prettier + Sorted Imports' },
+      { icon: GitBranch, label: 'GitHub Actions CI' },
+      { icon: CheckCircle2, label: 'Zod + React Hook Form' },
+      { icon: Moon, label: 'Dark Mode' },
     ],
   },
 ];
@@ -128,13 +131,9 @@ export default function Features() {
                     {feature.items.map((item) => {
                       const ItemIcon = item.icon;
                       return (
-                        <Badge
-                          variant='outline'
-                          key={item.label}
-                          className='flex items-center gap-2 rounded-md'
-                        >
-                          <ItemIcon className='text-muted-foreground' />
-                          <span className='text-sm'>{item.label}</span>
+                        <Badge variant='secondary' key={item.label}>
+                          <ItemIcon />
+                          {item.label}
                         </Badge>
                       );
                     })}

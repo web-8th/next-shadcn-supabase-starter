@@ -1,4 +1,5 @@
 import {
+  Badge,
   Card,
   CardContent,
   CardDescription,
@@ -11,7 +12,8 @@ import Image from 'next/image';
 const techStack = [
   {
     name: 'Next.js',
-    description: 'React framework for production',
+    description: 'App Router, Server Components, and proxy.ts',
+    version: 'v16',
     icon: '/icons/nextjs.svg',
     category: 'Framework',
     url: 'https://nextjs.org',
@@ -19,6 +21,7 @@ const techStack = [
   {
     name: 'React',
     description: 'UI library for building interfaces',
+    version: 'v19',
     icon: '/icons/react.svg',
     category: 'Library',
     url: 'https://react.dev',
@@ -26,48 +29,54 @@ const techStack = [
   {
     name: 'TypeScript',
     description: 'Typed JavaScript at scale',
+    version: 'v7',
     icon: '/icons/typescript.svg',
     category: 'Language',
     url: 'https://www.typescriptlang.org',
   },
   {
     name: 'Tailwind CSS',
-    description: 'Utility-first CSS framework',
+    description: 'Utility-first CSS, configured entirely in CSS',
+    version: 'v4',
     icon: '/icons/tailwind.svg',
     category: 'Styling',
     url: 'https://tailwindcss.com',
   },
   {
     name: 'Shadcn UI',
-    description: 'Re-usable component library',
+    description: '65+ components built on Base UI (base-lyra style)',
+    version: 'CLI v4',
     icon: '/icons/shadcn.svg',
     category: 'Components',
     url: 'https://ui.shadcn.com',
   },
   {
     name: 'Supabase',
-    description: 'Open source Firebase alternative',
+    description: 'Auth and database via @supabase/ssr',
+    version: 'supabase-js v2',
     icon: '/icons/supabase.svg',
     category: 'Backend',
     url: 'https://supabase.com',
   },
   {
     name: 'PostgreSQL',
-    description: 'Advanced open source database',
+    description: 'Postgres database included with every Supabase project',
     icon: '/icons/postgres.svg',
     category: 'Database',
     url: 'https://www.postgresql.org',
   },
   {
     name: 'ESLint',
-    description: 'Pluggable linting utility',
+    description: 'Next.js core web vitals + TypeScript rules',
+    version: 'v9',
     icon: '/icons/eslint.svg',
     category: 'Code Quality',
     url: 'https://eslint.org',
   },
   {
     name: 'Prettier',
-    description: 'Opinionated code formatter',
+    description: 'Formatting with auto-sorted imports and Tailwind classes',
+    version: 'v3',
     icon: '/icons/prettier.svg',
     category: 'Code Quality',
     url: 'https://prettier.io',
@@ -111,7 +120,10 @@ export default function TechStack() {
                     />
                   </div>
                   <div className='flex-1 min-w-0'>
-                    <CardTitle className='text-lg'>{tech.name}</CardTitle>
+                    <div className='flex items-center gap-2'>
+                      <CardTitle className='text-lg'>{tech.name}</CardTitle>
+                      {tech.version && <Badge variant='secondary'>{tech.version}</Badge>}
+                    </div>
                     <CardDescription className='text-xs'>{tech.category}</CardDescription>
                   </div>
                 </a>
