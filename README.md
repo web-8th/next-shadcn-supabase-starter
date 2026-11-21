@@ -11,33 +11,57 @@ git clone https://github.com/rinmeng/next-shadcn-supabase-starter.git
 cd next-shadcn-supabase-starter
 pnpm install
 cp .env.example .env.local
+pnpm db:start   # local Supabase (requires Docker)
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Supabase env vars
+### Local Supabase
 
-Add these to `.env.local` (from [Project Settings → API](https://supabase.com/dashboard/project/_/settings/api)):
+`pnpm db:start` runs Supabase locally in Docker, applies `supabase/migrations/`, and runs `supabase/seed.sql`. It prints an **API URL** and a **Publishable key**. Put them in `.env.local`:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your-project-url
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_...
 ```
 
-The app expects the publishable key name above — not `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Without valid credentials, auth-related code won't connect.
+To turn auth on, set `AUTH_ENABLED = true` in `config/auth.ts`. Then log in with the seeded user:
+
+| Email               | Password      |
+| ------------------- | ------------- |
+| `admin@example.com` | `password123` |
+
+Supabase Studio runs at [http://127.0.0.1:54323](http://127.0.0.1:54323). Run `pnpm db:status` to see the keys again, or `pnpm db:reset` to rebuild the database from migrations and seed.
+
+### Hosted Supabase
+
+Swap the two env vars for your project's values from [Project Settings → API](https://supabase.com/dashboard/project/_/settings/api). Then push your migrations:
+
+```bash
+pnpm exec supabase link --project-ref <ref>
+pnpm exec supabase db push
+```
+
+The seed is local-only, so create users in the dashboard under Authentication → Users.
+
+The app expects the publishable key name above, not `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 
 ## Scripts
 
-| Command             | What it does                      |
-| ------------------- | --------------------------------- |
-| `pnpm dev`          | Start the dev server              |
-| `pnpm build`        | Production build                  |
-| `pnpm start`        | Run the production server         |
-| `pnpm lint`         | ESLint                            |
-| `pnpm format`       | Prettier (write)                  |
-| `pnpm format:check` | Prettier (check only, used in CI) |
-| `pnpm typecheck`    | `tsc --noEmit` (TypeScript 7)     |
+| Command             | What it does                            |
+| ------------------- | --------------------------------------- |
+| `pnpm dev`          | Start the dev server                    |
+| `pnpm build`        | Production build                        |
+| `pnpm start`        | Run the production server               |
+| `pnpm lint`         | ESLint                                  |
+| `pnpm format`       | Prettier (write)                        |
+| `pnpm format:check` | Prettier (check only, used in CI)       |
+| `pnpm typecheck`    | `tsc --noEmit` (TypeScript 7)           |
+| `pnpm db:start`     | Start local Supabase (Docker)           |
+| `pnpm db:stop`      | Stop local Supabase                     |
+| `pnpm db:status`    | Show local URLs and keys                |
+| `pnpm db:reset`     | Rebuild local DB from migrations + seed |
 
 CI runs format check + lint on push/PR via `.github/workflows/format-lint.yml`.
 

@@ -47,6 +47,22 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=
 
 Both must be set or the Supabase client will log warnings and auth will fail.
 
+## Local Supabase
+
+Development is local-first. The Supabase CLI is a devDependency, so use it through `pnpm` (needs Docker running):
+
+```bash
+pnpm db:start    # start local Supabase; prints the API URL and publishable key for .env.local
+pnpm db:status   # show the URL/keys again
+pnpm db:reset    # drop the local DB, re-run migrations + seed
+pnpm db:stop
+```
+
+- Schema changes go in `supabase/migrations/` as timestamped SQL files. Create them with `pnpm exec supabase migration new <name>`; never edit a migration that has already been applied.
+- `supabase/seed.sql` is local-only test data. It creates the login user `admin@example.com` / `password123`.
+- Auth itself needs no migration: Supabase ships the `auth` schema. Add migrations only for app tables (with RLS policies).
+- Auth is behind the `AUTH_ENABLED` flag in `config/auth.ts`. It gates the `proxy.ts` route protection and the Navbar auth UI.
+
 ## Architecture Patterns
 
 **Context + Hooks**: Contexts in `contexts/` define providers; custom hooks in `hooks/` consume them. Components call `useAuth()`, `useToast()` — never import contexts directly.
