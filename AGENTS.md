@@ -67,6 +67,60 @@ For setup and onboarding (env vars, local Supabase, seeded login, deploying), se
 
 **Path alias**: `@/` maps to the project root. Use it for all non-relative imports.
 
+**Server vs. Client Components**: Default to Server Components. Add `'use client'` only when the component needs state, effects, event handlers, context, or browser APIs. Push it down to the smallest leaf that needs it; don't mark a whole page as a client component for one interactive button.
+
+## UI Building Blocks
+
+Use these existing helpers instead of re-implementing them.
+
+**Typography**: Use `<Text>` from `@/components/Text` instead of raw text elements with hand-written font classes.
+
+- Headings: `variant='hd-xs' | 'hd-sm' | 'hd-md' | 'hd-lg' | 'hd-xl' | 'hd-xxl'`. They're responsive and render `h6`–`h1` automatically, and `size` is ignored.
+- Body text: `variant='default' | 'muted' | 'caption' | 'label'`, with `size='xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'` for scale.
+- Override the element with `as` (e.g. `as='label' htmlFor='email'` for a real form label).
+
+```tsx
+// Do
+<Text variant='hd-lg'>Features</Text>
+<Text variant='muted' size='sm'>Last updated today</Text>
+
+// Don't
+<h3 className='text-xl md:text-2xl font-bold'>Features</h3>
+```
+
+**Toasts**: Call `const { toast } = useToast()` from `@/hooks/use-toast` (`toast.success`, `toast.error`, `toast.info`, `toast.warning`, `toast.promise`, …). Never import `sonner` directly in app code. For custom durations, use `DURATIONS` from `@/lib/durations` (`TOAST_SHORT`, `TOAST_LONG`) instead of hard-coded milliseconds, and add a new member there if none fits.
+
+**Staggered animations**: Use `getDelayClass(index)` from `@/utils/animations` to stagger list items, instead of writing `delay-[…]` classes by hand.
+
+## Before Finishing a Task
+
+Run all three and fix any failures before calling the work done:
+
+```bash
+pnpm format
+pnpm lint
+pnpm typecheck
+```
+
+CI runs `format:check`, `lint`, and `typecheck` on every push and PR. For changes that affect routing, rendering, or config, also run `pnpm build`.
+
 ## Branch & PR Conventions
 
 Use prefixed branches: `feature/*`, `fix/*`, `chore/*`.
+
+**Commit messages** follow [Conventional Commits](https://www.conventionalcommits.org): `type(optional-scope): summary`, lowercase and imperative, no trailing period.
+
+| Type       | Use for                                    |
+| ---------- | ------------------------------------------ |
+| `feat`     | New user-facing functionality              |
+| `fix`      | Bug fixes                                  |
+| `chore`    | Tooling, config, maintenance               |
+| `docs`     | README, AGENTS.md, comments                |
+| `style`    | Formatting only (no logic change)          |
+| `refactor` | Code changes that don't alter behavior     |
+| `ci`       | GitHub Actions workflows                   |
+| `deps`     | Use as a scope: `chore(deps): update next` |
+
+Examples: `feat: add EmptyState component`, `fix(auth): redirect after logout`, `chore(deps): bump supabase-js`.
+
+PRs use the template in `.github/pull_request_template.md`. Fill in Summary and Why, and add screenshots for UI changes.
