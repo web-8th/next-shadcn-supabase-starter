@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents (Claude Code, Codex, etc.) when 
 
 ## Package Manager
 
-Always use **pnpm**. Never use `npm` or `yarn`. Two lockfiles exist (`pnpm-lock.yaml` and `package-lock.json`) — pnpm-lock.yaml is authoritative.
+Always use **pnpm**. Never use `npm` or `yarn`, and never commit a `package-lock.json` or `yarn.lock`.
 
 ## Commands
 
@@ -36,38 +36,24 @@ Run `pnpm format` after edits rather than sorting imports manually.
 
 There is no `tailwind.config.js`. Tailwind v4 is configured entirely via PostCSS (`postcss.config.mjs`). All theme customization (colors, dark mode, animations) lives in `app/globals.css` using `@theme inline` CSS variables. Do not create a `tailwind.config.js`.
 
-## Environment Setup
+## Setup
 
-Copy `.env.example` to `.env.local` and fill in:
+For setup and onboarding (env vars, local Supabase, seeded login, deploying), see the root [README.md](README.md). Keep setup instructions there, not in this file.
 
-```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=
-SUPABASE_SECRET_KEY=
-```
-
-The URL and publishable key must be set or the Supabase client will log warnings and auth will fail. `.env.example` has a one-liner that fills all three from `supabase status`.
+## Supabase
 
 **Which key where:**
 
 - **Publishable key**: used by the browser client (`utils/supabase/client.ts`) and the proxy (`utils/supabase/proxy.ts`). It acts as the signed-in user, so RLS applies. Use it for anything that runs on behalf of a user.
 - **Secret key**: only via `createAdminClient()` in `utils/supabase/admin.ts`, and only in server code (Route Handlers, Server Actions, Server Components). It bypasses RLS. Use it for privileged work like `auth.admin.*`. Never give it a `NEXT_PUBLIC_` prefix and never import the admin client from a Client Component. The `server-only` import makes the build fail if you do.
 
-## Local Supabase
+**Migrations:**
 
-Development is local-first. The Supabase CLI is a devDependency, so use it through `pnpm` (needs Docker running):
+- Schema changes go in `supabase/migrations/` as timestamped SQL files. Create them with `pnpm exec supabase migration new <name>`, and never edit a migration that has already been applied.
+- Auth needs no migration, since Supabase ships the `auth` schema. Add migrations only for app tables, each with RLS policies.
+- `supabase/seed.sql` is local-only test data. Never put anything there that a hosted project depends on.
 
-```bash
-pnpm db:start    # start local Supabase; prints the API URL and publishable key for .env.local
-pnpm db:status   # show the URL/keys again
-pnpm db:reset    # drop the local DB, re-run migrations + seed
-pnpm db:stop
-```
-
-- Schema changes go in `supabase/migrations/` as timestamped SQL files. Create them with `pnpm exec supabase migration new <name>`; never edit a migration that has already been applied.
-- `supabase/seed.sql` is local-only test data. It creates the login user `admin@example.com` / `password123`.
-- Auth itself needs no migration: Supabase ships the `auth` schema. Add migrations only for app tables (with RLS policies).
-- Auth is behind the `AUTH_ENABLED` flag in `config/auth.ts`. It gates the `proxy.ts` route protection and the Navbar auth UI.
+**Auth flag**: `AUTH_ENABLED` in `config/auth.ts` gates the `proxy.ts` route protection and the Navbar auth UI. Check it when touching auth-related code.
 
 ## Architecture Patterns
 
