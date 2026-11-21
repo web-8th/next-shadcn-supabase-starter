@@ -1,5 +1,38 @@
-// Folder-specific settings
+// Project settings for Zed: https://zed.dev/docs/configuring-zed#settings-files
 //
-// For a full list of overridable settings, and general information on folder-specific settings,
-// see the documentation: https://zed.dev/docs/configuring-zed#settings-files
-{}
+// Prettier owns all formatting, including import order
+// (via @ianvs/prettier-plugin-sort-imports), so don't add source.organizeImports.
+// ESLint fixes run first, then Prettier formats.
+{
+  "format_on_save": "on",
+  "ensure_final_newline_on_save": true,
+  "remove_trailing_whitespace_on_save": true,
+  "wrap_guides": [90],
+  "languages": {
+    "TypeScript": {
+      "formatter": "prettier",
+      "code_actions_on_format": { "source.fixAll.eslint": true }
+    },
+    "TSX": {
+      "formatter": "prettier",
+      "code_actions_on_format": { "source.fixAll.eslint": true }
+    },
+    "JavaScript": {
+      "formatter": "prettier",
+      "code_actions_on_format": { "source.fixAll.eslint": true }
+    },
+    "CSS": { "formatter": "prettier" },
+    "JSON": { "formatter": "prettier" },
+    "JSONC": { "formatter": "prettier" },
+    "Markdown": { "formatter": "prettier" },
+    "YAML": { "formatter": "prettier" }
+  },
+  "lsp": {
+    "tailwindcss-language-server": {
+      "settings": {
+        // Class IntelliSense inside cn() and cva()
+        "classFunctions": ["cn", "cva"]
+      }
+    }
+  }
+}

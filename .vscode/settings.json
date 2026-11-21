@@ -1,22 +1,33 @@
 {
-  "deno.enablePaths": ["supabase/functions"],
-  "deno.lint": true,
-  "deno.unstable": [
-    "bare-node-builtins",
-    "byonm",
-    "sloppy-imports",
-    "unsafe-proto",
-    "webgpu",
-    "broadcast-channel",
-    "worker-options",
-    "cron",
-    "kv",
-    "ffi",
-    "fs",
-    "http",
-    "net"
-  ],
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // Formatting: Prettier owns all formatting, including import order
+  // (via @ianvs/prettier-plugin-sort-imports). Don't enable
+  // source.organizeImports, or it will fight the plugin.
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+  "editor.rulers": [90],
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  // Lint fixes on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // TypeScript 7 (native). node_modules/typescript is only the TS 6 JS API for
+  // tooling, so don't point typescript.tsdk at it. Use the TypeScript 7 extension.
+  "typescript.experimental.useTsgo": true,
+
+  // Tailwind v4: no config file. Treat CSS as Tailwind so @theme/@plugin don't warn,
+  // and get class IntelliSense inside cn() and cva().
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.classFunctions": ["cn", "cva"],
+
+  // .next and node_modules are already excluded via .gitignore
+  "search.exclude": {
+    "pnpm-lock.yaml": true
   }
 }
