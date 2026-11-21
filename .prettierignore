@@ -1,2 +1,5 @@
 # pnpm manages its own lockfile format
 pnpm-lock.yaml
+
+# shadcn-managed components (overwritten by the shadcn CLI)
+components/ui/
