@@ -43,9 +43,15 @@ Copy `.env.example` to `.env.local` and fill in:
 ```
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=
+SUPABASE_SECRET_KEY=
 ```
 
-Both must be set or the Supabase client will log warnings and auth will fail.
+The URL and publishable key must be set or the Supabase client will log warnings and auth will fail. `.env.example` has a one-liner that fills all three from `supabase status`.
+
+**Which key where:**
+
+- **Publishable key**: used by the browser client (`utils/supabase/client.ts`) and the proxy (`utils/supabase/proxy.ts`). It acts as the signed-in user, so RLS applies. Use it for anything that runs on behalf of a user.
+- **Secret key**: only via `createAdminClient()` in `utils/supabase/admin.ts`, and only in server code (Route Handlers, Server Actions, Server Components). It bypasses RLS. Use it for privileged work like `auth.admin.*`. Never give it a `NEXT_PUBLIC_` prefix and never import the admin client from a Client Component. The `server-only` import makes the build fail if you do.
 
 ## Local Supabase
 

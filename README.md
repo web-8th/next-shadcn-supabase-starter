@@ -19,12 +19,19 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Local Supabase
 
-`pnpm db:start` runs Supabase locally in Docker, applies `supabase/migrations/`, and runs `supabase/seed.sql`. It prints an **API URL** and a **Publishable key**. Put them in `.env.local`:
+`pnpm db:start` runs Supabase locally in Docker, applies `supabase/migrations/`, and runs `supabase/seed.sql`. This writes the URL and keys into `.env.local`. It replaces the file, so use `>>` instead to append:
+
+```bash
+pnpm exec supabase status -o env --override-name api.url=NEXT_PUBLIC_SUPABASE_URL --override-name auth.publishable_key=NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY --override-name auth.secret_key=SUPABASE_SECRET_KEY | grep -E "^(NEXT_PUBLIC_SUPABASE|SUPABASE_SECRET)" > .env.local
+```
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_...
+SUPABASE_SECRET_KEY=sb_secret_...
 ```
+
+The publishable key is used in the browser and acts as the signed-in user, so RLS applies. The secret key is server-only and bypasses RLS. Use it only through `createAdminClient()` from `utils/supabase/admin.ts`.
 
 To turn auth on, set `AUTH_ENABLED = true` in `config/auth.ts`. Then log in with the seeded user:
 
@@ -36,7 +43,7 @@ Supabase Studio runs at [http://127.0.0.1:54323](http://127.0.0.1:54323). Run `p
 
 ### Hosted Supabase
 
-Swap the two env vars for your project's values from [Project Settings → API](https://supabase.com/dashboard/project/_/settings/api). Then push your migrations:
+Swap the three env vars for your project's values from [Project Settings → API Keys](https://supabase.com/dashboard/project/_/settings/api-keys). Then push your migrations:
 
 ```bash
 pnpm exec supabase link --project-ref <ref>
