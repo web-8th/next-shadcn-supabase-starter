@@ -55,6 +55,8 @@ Both must be set or the Supabase client will log warnings and auth will fail.
 
 **Shadcn UI**: All 40+ components are pre-installed in `components/ui/`. Do not recreate them — import from there directly.
 
+**Reusable components**: If a piece of UI could plausibly be reused, build it as its own component in `components/` (e.g. `components/EmptyState.tsx`) instead of composing the raw shadcn primitives inline at each call site. Example: don't hand-assemble `Empty`, `EmptyHeader`, `EmptyMedia`, `EmptyTitle`, `EmptyDescription` from `@/components/ui/empty` on every page. Wrap them once in an `EmptyState` component with props (`icon`, `title`, `description`, `action`) and use that everywhere. Before writing new UI, check `components/` for an existing wrapper and extend it rather than duplicating. Leave `components/ui/` untouched, since those files are shadcn-managed and get overwritten on update.
+
 **Path alias**: `@/` maps to the project root. Use it for all non-relative imports.
 
 ## Branch & PR Conventions
