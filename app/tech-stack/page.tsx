@@ -66,12 +66,12 @@ const techStack = [
     url: 'https://www.postgresql.org',
   },
   {
-    name: 'ESLint',
-    description: 'Next.js core web vitals + TypeScript rules',
-    version: 'v9',
-    icon: '/icons/eslint.svg',
+    name: 'oxlint',
+    description: 'Rust-powered linter with Next.js, React, and TypeScript rules',
+    version: 'v1',
+    icon: '/icons/oxlint.svg',
     category: 'Code Quality',
-    url: 'https://eslint.org',
+    url: 'https://oxc.rs',
   },
   {
     name: 'Prettier',

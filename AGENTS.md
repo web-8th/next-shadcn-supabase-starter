@@ -11,7 +11,7 @@ Always use **pnpm**. Never use `npm` or `yarn`, and never commit a `package-lock
 ```bash
 pnpm dev       # development server
 pnpm build     # production build
-pnpm lint      # oxlint (config in .oxlintrc.json, ported from eslint-config-next)
+pnpm lint      # oxlint (config in .oxlintrc.json)
 pnpm format    # Prettier — formats all files
 ```
 
@@ -32,7 +32,7 @@ Prettier is enforced via `.prettierrc`. Key non-default settings:
 
 Run `pnpm format` after edits rather than sorting imports manually.
 
-**Linting** uses oxlint (`.oxlintrc.json`), not ESLint. The rule set mirrors `eslint-config-next` (core-web-vitals + typescript). Two rules oxlint lacks natively run through its `jsPlugins` bridge: `@next/eslint-plugin-next` (as `next-js/*`) and `eslint-plugin-react` (as `react-js/*`). Keep those devDependencies even though nothing imports them. Suppress a rule with `// oxlint-disable-next-line <rule>`, and only with a comment explaining why.
+**Linting** uses oxlint (`.oxlintrc.json`). The rule set mirrors Next.js's recommended config (core-web-vitals + TypeScript). Two rules oxlint lacks natively run through its `jsPlugins` bridge as `next-js/*` and `react-js/*`. Keep the packages listed under `jsPlugins` installed even though nothing imports them. Suppress a rule with `// oxlint-disable-next-line <rule>`, and only with a comment explaining why.
 
 ## Tailwind v4
 

@@ -79,7 +79,7 @@ const features = [
     color: 'text-orange-500',
     bgColor: 'bg-orange-500/10',
     items: [
-      { icon: CheckCircle2, label: 'ESLint' },
+      { icon: CheckCircle2, label: 'oxlint' },
       { icon: Sparkles, label: 'Prettier + Sorted Imports' },
       { icon: GitBranch, label: 'GitHub Actions CI' },
       { icon: CheckCircle2, label: 'Zod + React Hook Form' },
