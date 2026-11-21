@@ -12,7 +12,7 @@
 
   // Lint fixes on save
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.oxc": "explicit"
   },
 
   // TypeScript 7 (native). node_modules/typescript is only the TS 6 JS API for

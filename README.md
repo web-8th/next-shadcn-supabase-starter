@@ -61,7 +61,7 @@ The app expects the publishable key name above, not `NEXT_PUBLIC_SUPABASE_ANON_K
 | `pnpm dev`          | Start the dev server                    |
 | `pnpm build`        | Production build                        |
 | `pnpm start`        | Run the production server               |
-| `pnpm lint`         | ESLint                                  |
+| `pnpm lint`         | oxlint                                  |
 | `pnpm format`       | Prettier (write)                        |
 | `pnpm format:check` | Prettier (check only, used in CI)       |
 | `pnpm typecheck`    | `tsc --noEmit` (TypeScript 7)           |

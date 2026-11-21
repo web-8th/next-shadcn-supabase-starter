@@ -2,7 +2,7 @@
 //
 // Prettier owns all formatting, including import order
 // (via @ianvs/prettier-plugin-sort-imports), so don't add source.organizeImports.
-// ESLint fixes run first, then Prettier formats.
+// oxlint fixes run first (needs the Oxc extension), then Prettier formats.
 {
   "format_on_save": "on",
   "ensure_final_newline_on_save": true,
@@ -11,15 +11,18 @@
   "languages": {
     "TypeScript": {
       "formatter": "prettier",
-      "code_actions_on_format": { "source.fixAll.eslint": true }
+      "language_servers": ["!eslint", "..."],
+      "code_actions_on_format": { "source.fixAll.oxc": true }
     },
     "TSX": {
       "formatter": "prettier",
-      "code_actions_on_format": { "source.fixAll.eslint": true }
+      "language_servers": ["!eslint", "..."],
+      "code_actions_on_format": { "source.fixAll.oxc": true }
     },
     "JavaScript": {
       "formatter": "prettier",
-      "code_actions_on_format": { "source.fixAll.eslint": true }
+      "language_servers": ["!eslint", "..."],
+      "code_actions_on_format": { "source.fixAll.oxc": true }
     },
     "CSS": { "formatter": "prettier" },
     "JSON": { "formatter": "prettier" },
