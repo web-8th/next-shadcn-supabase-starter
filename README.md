@@ -70,7 +70,7 @@ The app expects the publishable key name above, not `NEXT_PUBLIC_SUPABASE_ANON_K
 | `pnpm db:status`    | Show local URLs and keys                |
 | `pnpm db:reset`     | Rebuild local DB from migrations + seed |
 
-CI runs format check, lint, and typecheck on push/PR via `.github/workflows/format-lint.yml`.
+CI runs format check, lint, and typecheck on push/PR via `.github/workflows/ci.yml`.
 
 ## shadcn/ui
 
