@@ -1,0 +1,54 @@
+name: Database types
+
+# Fails when lib/types/database.ts doesn't match supabase/migrations/, e.g. someone
+# added a migration without running `pnpm db:types`, or edited the generated file.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/**'
+      - 'lib/types/database.ts'
+      - 'scripts/db-types.mjs'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/db-types.yml'
+  pull_request:
+    paths:
+      - 'supabase/**'
+      - 'lib/types/database.ts'
+      - 'scripts/db-types.mjs'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/db-types.yml'
+
+concurrency:
+  group: db-types-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  db-types:
+    name: Check database.ts matches migrations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Starts only Postgres and applies supabase/migrations/.
+      - name: Start local database
+        run: pnpm exec supabase db start
+
+      - name: Check generated types
+        run: pnpm db:types:check
