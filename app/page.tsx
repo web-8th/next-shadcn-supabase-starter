@@ -86,7 +86,7 @@ export default function Home() {
               nativeButton={false}
               render={
                 <a
-                  href='https://github.com/rinmeng/next-shadcn-supabase-starter'
+                  href='https://github.com/web-8th/next-shadcn-supabase-starter'
                   target='_blank'
                   rel='noopener noreferrer'
                 />

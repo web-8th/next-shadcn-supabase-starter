@@ -43,7 +43,7 @@ export default function Admin() {
             nativeButton={false}
             render={
               <a
-                href='https://github.com/rinmeng/next-shadcn-supabase-starter/blob/main/proxy.ts'
+                href='https://github.com/web-8th/next-shadcn-supabase-starter/blob/main/proxy.ts'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='inline-flex items-center gap-2'
