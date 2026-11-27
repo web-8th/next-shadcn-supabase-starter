@@ -60,12 +60,15 @@ export default function LoginPage() {
       } else {
         toast.success('Login successful', { description: 'You are now signed in.' });
         router.push('/admin');
+        // Re-render Server Components so they see the new session cookie.
+        router.refresh();
       }
     } catch (err) {
+      console.error(err);
       toast.error('Login failed', { description: 'Unexpected error occurred.' });
-      throw err;
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

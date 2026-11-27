@@ -1,7 +1,9 @@
 import { useContext } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
 
+import { AuthContext } from '@/contexts/AuthContext';
+import { createClient } from '@/utils/supabase/client';
+
+/** Current session and user. For Server Components, use `getUser()` from `@/utils/supabase/server`. */
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -10,15 +12,7 @@ export function useAuth() {
   return context;
 }
 
+/** Returns Supabase's `{ data, error }`. Sign out through `useAuth().signOut`. */
 export async function signInWithEmail(email: string, password: string) {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  return { data, error };
-}
-
-export async function signOut() {
-  const { error } = await supabase.auth.signOut();
-  return { error };
+  return createClient().auth.signInWithPassword({ email, password });
 }
