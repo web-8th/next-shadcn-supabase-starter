@@ -1,6 +1,6 @@
 'use client';
 
-import { LogIn, LogOut, Menu } from 'lucide-react';
+import { LogIn, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -11,21 +11,12 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  Dialog,
-  DialogTrigger,
-  DialogDescription,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
 } from '@/components/ui';
+import { UserButton } from '@/components/UserButton';
 import { ModeToggle } from './ModeToggle';
 import { Logo } from './Logo';
-import { signOut, useAuth } from '@/hooks/use-auth';
-import { User } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
 import { AUTH_ENABLED } from '@/config/auth';
-import { useToast } from '@/hooks/use-toast';
 
 function LoginButton({ onClose }: { onClose?: () => void }) {
   return (
@@ -36,45 +27,6 @@ function LoginButton({ onClose }: { onClose?: () => void }) {
     >
       <LogIn /> Login
     </Button>
-  );
-}
-
-function LogoutButton({ user, onClose }: { user: User; onClose?: () => void }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const router = useRouter();
-  const { toast } = useToast();
-
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      toast.success('You have been logged out.');
-    } catch {
-      toast.error('There was an issue logging you out.');
-    }
-    setDialogOpen(false);
-    onClose?.();
-    router.push('/login');
-  };
-
-  return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger render={<Button variant='outline' />}>
-        {user.email?.split('@')[0]} <LogOut />
-      </DialogTrigger>
-      <DialogContent className='sm:max-w-106.25'>
-        <DialogHeader>
-          <DialogTitle>Logout?</DialogTitle>
-        </DialogHeader>
-        <DialogDescription>
-          Are you sure you want to logout from your account <strong>{user.email}</strong>?
-        </DialogDescription>
-        <DialogFooter>
-          <Button variant='destructive' onClick={handleLogout}>
-            Logout <LogOut />
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 }
 
@@ -114,7 +66,9 @@ export function Navbar() {
               {link.label}
             </Button>
           ))}
-          {AUTH_ENABLED && (user ? <LogoutButton user={user} /> : <LoginButton />)}
+          {/* Show the signed-in user even when AUTH_ENABLED is off; only the login
+              button is gated, since there's nothing to protect yet. */}
+          {user ? <UserButton user={user} /> : AUTH_ENABLED && <LoginButton />}
           <ModeToggle />
         </div>
 
@@ -144,12 +98,11 @@ export function Navbar() {
                       {link.label}
                     </Button>
                   ))}
-                  {AUTH_ENABLED &&
-                    (user ? (
-                      <LogoutButton user={user} onClose={() => setOpen(false)} />
-                    ) : (
-                      <LoginButton onClose={() => setOpen(false)} />
-                    ))}
+                  {user ? (
+                    <UserButton user={user} onLoggedOut={() => setOpen(false)} />
+                  ) : (
+                    AUTH_ENABLED && <LoginButton onClose={() => setOpen(false)} />
+                  )}
                   <ModeToggle />
                 </nav>
               </div>
